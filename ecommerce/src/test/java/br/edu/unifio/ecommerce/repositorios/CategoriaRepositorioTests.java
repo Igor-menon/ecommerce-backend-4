@@ -7,8 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
@@ -16,7 +18,7 @@ import org.springframework.data.domain.Sort;
 import br.edu.unifio.ecommerce.entidades.Categoria;
 
 @SpringBootTest 
-
+@TestMethodOrder (MethodOrderer.OrderAnnotation.class)
 public class CategoriaRepositorioTests {
     @Autowired 
     private CategoriaRepositorio categoriaRepositorio;
@@ -56,7 +58,7 @@ public class CategoriaRepositorioTests {
 
     @Test 
     @Order (4)
-    public void deveExcluirUmaCategoria() {
+    public void deveExcluirUmaCategoriaPorId() {
         Categoria categoria = new Categoria();
         categoria.setNome("Camiseta");
         categoria.setDescricao("Camiseta de verão");
