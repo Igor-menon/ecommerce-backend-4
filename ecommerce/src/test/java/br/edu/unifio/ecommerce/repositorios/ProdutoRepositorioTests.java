@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 import br.edu.unifio.ecommerce.entidades.Produto;
-import br.edu.unifio.ecommerce.repositorios.CategoriaRepositorio;
 
 
 
@@ -58,7 +57,7 @@ public class ProdutoRepositorioTests {
         produto.setEstoque(Short.parseShort("788"));
         produto.setPreco(new BigDecimal("17899.00"));
         produto.setCategoria(categoriaRepositorio.findById(Short.parseShort("1")).orElseThrow());
-        System.out.println("Produto ANtes: " + produto.getId());
+        System.out.println("Produto Antes: " + produto.getId());
         produtoRepositorio.save(produto);
         System.out.println("Produto Depois: " + produto.getId());
 
@@ -85,17 +84,29 @@ public class ProdutoRepositorioTests {
     }
 
     @Test
-    @Order (5)
-    public void deveAlterarUmProduto(){
+    @Order(5)
+    public void deveAlterarUmProduto() {
         Produto produto = new Produto();
+        produto.setNome("Iphone 14 Pro");
+        produto.setDescricao("128GB");
+        produto.setEstoque(Short.parseShort("10"));
+        produto.setPreco(new BigDecimal("7000.00"));
+        produto.setCategoria(categoriaRepositorio.findById(Short.parseShort("1")).orElseThrow());
+    
+        produtoRepositorio.save(produto);
+
         produto.setNome("Iphone 14 Pro Max");
         produto.setDescricao("1TB");
         produto.setEstoque(Short.parseShort("50"));
         produto.setPreco(new BigDecimal("20000.00"));
-        produto.setCategoria(categoriaRepositorio.findById(Short.parseShort("1")).orElseThrow());
+
         produtoRepositorio.save(produto);
 
-        
+        Produto produtoAlterado = produtoRepositorio.findById(produto.getId()).orElseThrow();
+
+        assertEquals("Iphone 14 Pro Max", produtoAlterado.getNome());
+        assertEquals("1TB", produtoAlterado.getDescricao());
+        assertEquals(new BigDecimal("20000.00"), produtoAlterado.getPreco());
     }
 }
 
